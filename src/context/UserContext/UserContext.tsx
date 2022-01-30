@@ -8,6 +8,7 @@ export type UserCredentials = {
 export type User = {
   login: string;
   id: number;
+  restorationKey?: string;
 };
 
 type State = { token: string; user?: User };
@@ -31,8 +32,12 @@ const initialState: State = {
 function userReducer(state: State, action: Action) {
   switch (action.type) {
     case "login":
+      if (!action.payload.user) {
+        return { ...state };
+      }
+      const { login, id } = action.payload.user;
       window.localStorage.setItem("token", action.payload.token);
-      window.localStorage.setItem("user", JSON.stringify(action.payload.user));
+      window.localStorage.setItem("user", JSON.stringify({ login, id }));
       return { ...state, ...action.payload };
     case "logout":
       window.localStorage.removeItem(tokenKey);
@@ -45,6 +50,7 @@ function UserProvider({ children }: UserProviderProps) {
   const [state, dispatch] = useReducer(userReducer, initialState);
   const { token, user } = state;
   const value = { state, dispatch, isLoggedIn: Boolean(token && user) };
+  console.log(value);
   return (
     <UserStateContext.Provider value={value}>
       {children}
@@ -54,6 +60,7 @@ function UserProvider({ children }: UserProviderProps) {
 
 function useUser() {
   const context = useContext(UserStateContext);
+
   if (context === undefined) {
     throw new Error("useUser must be used within a UserProvider");
   }
