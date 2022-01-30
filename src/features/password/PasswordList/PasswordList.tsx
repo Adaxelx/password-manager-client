@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { Password, getPasswords } from "api/password";
 import { Button } from "components";
 import ShowPasswordModal from "../ShowPasswordModal";
-
+import SharePasswordModal from "../SharePasswordModal";
 const PasswordList = () => {
   const {
     state: { user },
@@ -27,7 +27,7 @@ const PasswordList = () => {
   return (
     <div className="w-full min-h-screen p-3">
       <div className="flex flex-col">
-        <h1 className="text-4xl mb-3">Lista haseł</h1>
+        <h1 className="text-4xl mb-3">{`Lista haseł użytkownika o id: ${user?.id}`}</h1>
         <table>
           <tr>
             <th className="border p-2">Nazwa serwisu</th>
@@ -40,7 +40,9 @@ const PasswordList = () => {
                 <Button onClick={() => setPasswordId(id)}>Pokaz hasło</Button>
                 {user?.id === creatorId && (
                   <>
-                    <Button className="mx-2">Udostępnij</Button>
+                    <Button className="mx-2" onClick={() => setPasswordId(id)}>
+                      Udostępnij
+                    </Button>
                     <Button className="bg-red-500">Usuń</Button>
                   </>
                 )}
@@ -59,6 +61,11 @@ const PasswordList = () => {
           ))}
         </ul> */}
         <ShowPasswordModal
+          passwordId={passwordId}
+          isOpen={Boolean(passwordId)}
+          onClose={() => setPasswordId(undefined)}
+        />
+        <SharePasswordModal
           passwordId={passwordId}
           isOpen={Boolean(passwordId)}
           onClose={() => setPasswordId(undefined)}

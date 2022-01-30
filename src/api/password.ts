@@ -6,6 +6,8 @@ type Props = {
 
 type DecryptProps = { passwordId?: number; key: string } & Props;
 
+type ShareProps = { passwordId?: number; sharedId: number } & Props;
+
 export type Password = {
   id: number;
   password: string;
@@ -20,5 +22,12 @@ export const getPasswords = ({ userId }: Props) => {
 export const showPassword = ({ userId, passwordId, key }: DecryptProps) => {
   return client(`user/${userId}/password/${passwordId}/decrypt`, {
     body: { key },
+  });
+};
+
+export const sharePassword = ({ userId, passwordId, sharedId }: ShareProps) => {
+  return client(`user/${userId}/password/${passwordId}/share`, {
+    body: { userId: sharedId },
+    method: "PUT",
   });
 };

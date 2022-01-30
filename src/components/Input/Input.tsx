@@ -3,10 +3,11 @@ import React, { ChangeEvent } from "react";
 interface InputProps {
   value: string;
   onChange: (value: string) => void;
-  type?: "text" | "password";
+  type?: "text" | "password" | "number";
   className?: string;
   label?: string;
   htmlFor?: string;
+  min?: number;
 }
 
 const Input = ({
