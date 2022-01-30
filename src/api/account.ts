@@ -8,3 +8,7 @@ export const login = (body: UserCredentials) => {
 export const register = (body: UserCredentials) => {
   return client("user/register", { body });
 };
+
+export const restore = (body: UserCredentials) => {
+  return client("user/restore", { body, method: "PUT" });
+};
