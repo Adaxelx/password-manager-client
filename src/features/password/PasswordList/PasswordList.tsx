@@ -1,33 +1,55 @@
 import { useUser } from "context/UserContext";
 import React, { useState } from "react";
-import { useQuery } from "react-query";
-import { Password, getPasswords } from "api/password";
+import { useMutation, useQuery } from "react-query";
+import { Password, getPasswords, deletePassword } from "api/password";
 import { Button } from "components";
 import ShowPasswordModal from "../ShowPasswordModal";
 import SharePasswordModal from "../SharePasswordModal";
+import AddPasswordModal from "../AddPasswordModal";
+
 const PasswordList = () => {
   const {
     state: { user },
     dispatch,
   } = useUser();
   const [passwordId, setPasswordId] = useState<number | undefined>(undefined);
-
+  const [passwordShareId, setPasswordShareId] = useState<number | undefined>(
+    undefined
+  );
+  const [isAddPasswordOpen, setIsAddPasswordOpen] = useState(false);
   if (!user) {
     dispatch({ type: "logout" });
   }
 
+  const { mutate: deleteMutation } = useMutation(
+    (passwordId: number) => deletePassword({ passwordId, userId: user?.id }),
+    {
+      onSuccess: () => {
+        queryInfo.refetch();
+      },
+    }
+  );
+
   const queryInfo = useQuery<Password[]>(["passwordList", user?.id], () =>
     getPasswords({ userId: user?.id })
   );
+
   if (queryInfo.isLoading || queryInfo.isIdle) {
     return <p>Ładowanie...</p>;
   } else if (queryInfo.isError) {
     return <p>Coś poszło nie tak</p>;
   }
+
   return (
     <div className="w-full min-h-screen p-3">
       <div className="flex flex-col">
         <h1 className="text-4xl mb-3">{`Lista haseł użytkownika o id: ${user?.id}`}</h1>
+        <Button
+          className="self-start mb-3"
+          onClick={() => setIsAddPasswordOpen(true)}
+        >
+          Dodaj hasło
+        </Button>
         <table>
           <tr>
             <th className="border p-2">Nazwa serwisu</th>
@@ -40,12 +62,20 @@ const PasswordList = () => {
                 <Button onClick={() => setPasswordId(id)}>Pokaz hasło</Button>
                 {user?.id === creatorId && (
                   <>
-                    <Button className="mx-2" onClick={() => setPasswordId(id)}>
+                    <Button
+                      className="ml-2"
+                      onClick={() => setPasswordShareId(id)}
+                    >
                       Udostępnij
                     </Button>
-                    <Button className="bg-red-500">Usuń</Button>
                   </>
                 )}
+                <Button
+                  className="bg-red-500 ml-2"
+                  onClick={() => deleteMutation(id)}
+                >
+                  Usuń
+                </Button>
               </td>
             </tr>
           ))}
@@ -66,9 +96,13 @@ const PasswordList = () => {
           onClose={() => setPasswordId(undefined)}
         />
         <SharePasswordModal
-          passwordId={passwordId}
-          isOpen={Boolean(passwordId)}
-          onClose={() => setPasswordId(undefined)}
+          passwordId={passwordShareId}
+          isOpen={Boolean(passwordShareId)}
+          onClose={() => setPasswordShareId(undefined)}
+        />
+        <AddPasswordModal
+          isOpen={isAddPasswordOpen}
+          onClose={() => setIsAddPasswordOpen(false)}
         />
       </div>
     </div>
