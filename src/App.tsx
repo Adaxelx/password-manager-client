@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
+import { BrowserRouter } from "react-router-dom";
+import Router from "features/router";
+import { UserProvider } from "context/UserContext";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ToastContainer } from "components";
 
-function App() {
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+    mutations: {
+      retry: false,
+    },
+  },
+});
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <UserProvider>
+        <BrowserRouter>
+          <Suspense fallback={<>Ładowanie</>}>
+            <Router />
+          </Suspense>
+        </BrowserRouter>
+      </UserProvider>
+      <ToastContainer />
+    </QueryClientProvider>
   );
-}
+};
 
 export default App;
