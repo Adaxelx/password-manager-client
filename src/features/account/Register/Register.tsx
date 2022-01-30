@@ -28,7 +28,7 @@ const Register = () => {
       navigate("/");
     },
     onError: (error) => {
-      const errorData = error?.message && JSON.parse(error?.message);
+      const errorData = error?.message;
       showToast(errorData?.message, { type: "error" });
     },
   });

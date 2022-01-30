@@ -36,8 +36,8 @@ function userReducer(state: State, action: Action) {
         return { ...state };
       }
       const { login, id } = action.payload.user;
-      window.localStorage.setItem("token", action.payload.token);
-      window.localStorage.setItem("user", JSON.stringify({ login, id }));
+      window.localStorage.setItem(tokenKey, action.payload.token);
+      window.localStorage.setItem(userKey, JSON.stringify({ login, id }));
       return { ...state, ...action.payload };
     case "logout":
       window.localStorage.removeItem(tokenKey);
