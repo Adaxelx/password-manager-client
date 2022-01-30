@@ -6,6 +6,7 @@ import { Title } from "components";
 import { showToast } from "components/ToastContainer";
 import { useNavigate } from "react-router";
 import UserForm from "../UserForm";
+import { Link } from "react-router-dom";
 const classWrapper = "w-full sm:w-2/3 md:w-1/2 lg:w-1/2 2xl:w-1/3 relative";
 
 const background = "h-full absolute transform";
@@ -21,6 +22,7 @@ const Register = () => {
     any
   >((credentials: UserCredentials) => registerCall(credentials), {
     onSuccess: ({ token, user }) => {
+      console.log(user, token);
       dispatch({
         type: "login",
         payload: { token, user },
@@ -29,7 +31,7 @@ const Register = () => {
     },
     onError: (error) => {
       const errorData = error?.message;
-      showToast(errorData?.message, { type: "error" });
+      showToast(errorData, { type: "error" });
     },
   });
 
@@ -42,6 +44,9 @@ const Register = () => {
         <Title className="mb-4 relative">Rejestracja</Title>
       </div>
       <UserForm backendCall={registerMutation} />
+      <Link to="/login" className="mr-2 text-purple-400 mt-3">
+        Zaloguj się
+      </Link>
     </div>
   );
 };

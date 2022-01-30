@@ -12,8 +12,10 @@ const flexCenterAll = "flex flex-col justify-center items-center";
 const UserForm = ({
   backendCall,
   otherInputs,
+  actions,
 }: {
   otherInputs?: ReactNode | ReactNode[];
+  actions?: ReactNode | ReactNode[];
   backendCall: <T extends UserCredentials>(data: T) => void;
 }) => {
   const [login, setLogin] = useState("");

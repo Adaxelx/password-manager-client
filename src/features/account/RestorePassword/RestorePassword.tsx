@@ -6,6 +6,7 @@ import { Input, Title } from "components";
 import { showToast } from "components/ToastContainer";
 import { useNavigate } from "react-router";
 import UserForm from "../UserForm";
+import { Link } from "react-router-dom";
 
 type RestoreProps = UserCredentials & { restorationKey: string };
 
@@ -28,8 +29,8 @@ const RestorePassword = () => {
       setMessage(`${message} Nowy klucz: ${restorationKey}`);
     },
     onError: (error) => {
-      const errorData = error?.message && JSON.parse(error?.message);
-      showToast(errorData?.message, { type: "error" });
+      const errorData = error?.message;
+      showToast(errorData, { type: "error" });
     },
   });
 
@@ -56,6 +57,9 @@ const RestorePassword = () => {
         }
       />
       <p className="text-green-500 mt-3">{message}</p>
+      <Link to="/login" className="mr-2 text-purple-400">
+        Zaloguj się
+      </Link>
     </div>
   );
 };

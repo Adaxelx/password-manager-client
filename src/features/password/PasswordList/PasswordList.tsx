@@ -44,12 +44,25 @@ const PasswordList = () => {
     <div className="w-full min-h-screen p-3">
       <div className="flex flex-col">
         <h1 className="text-4xl mb-3">{`Lista haseł użytkownika o id: ${user?.id}`}</h1>
-        <Button
-          className="self-start mb-3"
-          onClick={() => setIsAddPasswordOpen(true)}
-        >
-          Dodaj hasło
-        </Button>
+        {user?.restorationKey && (
+          <>
+            <h3 className="text-2xl mb-3">{`Klucz do przywrócenia hasła (ZAPISZ GO BO WIDZISZ GO JEDNORAZOWO!):`}</h3>
+            <h2 className="text-3xl text-red-600 mb-3">
+              {user.restorationKey}
+            </h2>
+          </>
+        )}
+        <div className="mb-3">
+          <Button className="mr-3" onClick={() => setIsAddPasswordOpen(true)}>
+            Dodaj hasło
+          </Button>
+          <Button
+            className="bg-yellow-500"
+            onClick={() => dispatch({ type: "logout" })}
+          >
+            Wyloguj się
+          </Button>
+        </div>
         <table>
           <tr>
             <th className="border p-2">Nazwa serwisu</th>

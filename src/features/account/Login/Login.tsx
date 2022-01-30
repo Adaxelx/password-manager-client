@@ -5,6 +5,7 @@ import { useMutation } from "react-query";
 import { Title } from "components";
 import { showToast } from "components/ToastContainer";
 import UserForm from "features/account/UserForm";
+import { Link } from "react-router-dom";
 const classWrapper = "w-full sm:w-2/3 md:w-1/2 lg:w-1/2 2xl:w-1/3 relative";
 const background = "h-full absolute transform";
 
@@ -23,8 +24,8 @@ const Login = () => {
         payload: { token, user },
       }),
     onError: (error) => {
-      const errorData = error?.message && JSON.parse(error?.message);
-      showToast(errorData?.message, { type: "error" });
+      const errorData = error?.message;
+      showToast(errorData, { type: "error" });
     },
   });
 
@@ -37,6 +38,12 @@ const Login = () => {
         <Title className="mb-4 relative">Logowanie</Title>
       </div>
       <UserForm backendCall={loginMutation} />
+      <div className="flex mt-3 text-purple-400">
+        <Link to="/register" className="mr-2">
+          Zarejestruj się
+        </Link>
+        <Link to="/restore">Odzyskaj hasło</Link>
+      </div>
     </div>
   );
 };
