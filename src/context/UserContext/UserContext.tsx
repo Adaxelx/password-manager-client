@@ -23,7 +23,7 @@ const UserStateContext = React.createContext<
   { state: State; dispatch: Dispatch; isLoggedIn: boolean } | undefined
 >(undefined);
 
-const user = window.localStorage.getItem("user");
+const user = window.localStorage.getItem(userKey);
 const initialState: State = {
   token: window.localStorage.getItem(tokenKey) || "",
   user: user && JSON.parse(user),

@@ -12,3 +12,7 @@ export const register = (body: UserCredentials) => {
 export const restore = (body: UserCredentials) => {
   return client("user/restore", { body, method: "PUT" });
 };
+
+export const change = (body: UserCredentials & { oldPassword: string }) => {
+  return client("user/password/change", { body, method: "PUT" });
+};

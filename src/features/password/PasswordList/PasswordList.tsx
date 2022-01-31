@@ -6,7 +6,7 @@ import { Button } from "components";
 import ShowPasswordModal from "../ShowPasswordModal";
 import SharePasswordModal from "../SharePasswordModal";
 import AddPasswordModal from "../AddPasswordModal";
-
+import ChangePasswordModal from "../ChangePasswordModal";
 const PasswordList = () => {
   const {
     state: { user },
@@ -16,6 +16,7 @@ const PasswordList = () => {
   const [passwordShareId, setPasswordShareId] = useState<number | undefined>(
     undefined
   );
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   const [isAddPasswordOpen, setIsAddPasswordOpen] = useState(false);
   if (!user) {
     dispatch({ type: "logout" });
@@ -55,6 +56,12 @@ const PasswordList = () => {
         <div className="mb-3">
           <Button className="mr-3" onClick={() => setIsAddPasswordOpen(true)}>
             Dodaj hasło
+          </Button>
+          <Button
+            className="mr-3"
+            onClick={() => setIsChangePasswordOpen(true)}
+          >
+            Zmień hasło
           </Button>
           <Button
             className="bg-yellow-500"
@@ -116,6 +123,10 @@ const PasswordList = () => {
         <AddPasswordModal
           isOpen={isAddPasswordOpen}
           onClose={() => setIsAddPasswordOpen(false)}
+        />
+        <ChangePasswordModal
+          isOpen={isChangePasswordOpen}
+          onClose={() => setIsChangePasswordOpen(false)}
         />
       </div>
     </div>
