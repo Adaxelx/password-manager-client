@@ -6,7 +6,7 @@ const UnauthenticatedApp = React.lazy(() => import("./UnauthenticatedApp"));
 
 const Router = () => {
   const { isLoggedIn } = useUser();
-  console.log(isLoggedIn);
+
   return isLoggedIn ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 };
 

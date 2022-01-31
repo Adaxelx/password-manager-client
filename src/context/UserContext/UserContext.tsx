@@ -50,7 +50,7 @@ function UserProvider({ children }: UserProviderProps) {
   const [state, dispatch] = useReducer(userReducer, initialState);
   const { token, user } = state;
   const value = { state, dispatch, isLoggedIn: Boolean(token && user) };
-  console.log(value);
+
   return (
     <UserStateContext.Provider value={value}>
       {children}

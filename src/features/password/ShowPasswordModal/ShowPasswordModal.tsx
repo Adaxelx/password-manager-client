@@ -18,11 +18,7 @@ const ShowPasswordModal = ({ passwordId, ...props }: ShowPasswordProps) => {
     data,
     error,
     reset,
-  } = useMutation(() => showPassword({ passwordId, key, userId: user?.id }), {
-    onSuccess: (data) => {
-      console.log(data);
-    },
-  });
+  } = useMutation(() => showPassword({ passwordId, key, userId: user?.id }));
 
   useEffect(() => {
     setKey("");

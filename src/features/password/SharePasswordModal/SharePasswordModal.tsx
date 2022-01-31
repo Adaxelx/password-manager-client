@@ -18,18 +18,12 @@ const SharePasswordModal = ({ passwordId, ...props }: ShowPasswordProps) => {
     data,
     error,
     reset,
-  } = useMutation(
-    () =>
-      sharePassword({
-        passwordId,
-        sharedId: parseInt(sharedId),
-        userId: user?.id,
-      }),
-    {
-      onSuccess: (data) => {
-        console.log(data);
-      },
-    }
+  } = useMutation(() =>
+    sharePassword({
+      passwordId,
+      sharedId: parseInt(sharedId),
+      userId: user?.id,
+    })
   );
 
   useEffect(() => {

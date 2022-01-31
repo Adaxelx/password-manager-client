@@ -22,7 +22,6 @@ const Register = () => {
     any
   >((credentials: UserCredentials) => registerCall(credentials), {
     onSuccess: ({ token, user }) => {
-      console.log(user, token);
       dispatch({
         type: "login",
         payload: { token, user },
